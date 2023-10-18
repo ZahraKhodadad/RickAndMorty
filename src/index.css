@@ -34,7 +34,7 @@ a:hover {
 body {
   width: 100vw;
   min-height: 100vh;
-  background-color: var(--slate-900);
+  /* background-color: var(--slate-900); */
   color: var(--slate-300);
   margin:5px auto
 }
@@ -43,39 +43,48 @@ input:focus {
 }
 @layer components {
   .navbar {
-    @apply bg-slate-700 flex justify-between 
+    @apply relative dark:bg-slate-700 bg-rose-300 flex justify-between 
     items-center rounded-[5px] p-3 mt-4
   }
   .search_input{
-    @apply  border-solid rounded-[5px] bg-slate-500
-     text-slate-100 placeholder:text-slate-400 p-1 w-[55%] inline-block;
+    @apply  border-solid rounded-[5px] dark:bg-slate-500 bg-rose-200
+     dark:text-slate-100 dark:placeholder:text-slate-400 placeholder:text-rose-100 p-1 w-[55%] inline-block;
   }
   .search_box{
     @apply hidden sm:flex w-[75%];
   }
   .toggleSearch{
-    @apply hidden mt-[1vw] transition-all delay-150 
-    duration-300 ease-out;
+    @apply opacity-0 max-h-0 mt-[1vw]  
+     dark:bg-slate-700 bg-rose-300 rounded-[5px] p-1;
+  }
+  .toggleSearchClicked{
+    @apply opacity-100 max-h-10 sm:opacity-0 transition-all delay-150 duration-300 ease-out
   }
   .logo{
-    @apply text-slate-300 font-[700]
+    @apply font-[700]
   }
   .nav_result{
-    @apply text-slate-400 w-[35%];
+    @apply w-[35%];
+  }
+  .icons_nav{
+    @apply flex justify-between items-center w-[18%] sm:w-[10%]
   }
   .heart{
    @apply relative flex;
   }
   .icon{
-    @apply w-[1.5rem] h-[1.5rem];
+    @apply sm:w-[1.5rem] sm:h-[1.5rem] w-[1.1rem] h-[1.1rem] ;
   }
   .red{
    @apply text-rose-500;
   }
   .badge{
-    @apply w-[15px] h-[15px] rounded-[50%] p-[0.3vw]
+    @apply sm:w-[15px] sm:h-[15px] w-[12px] h-[12px]  rounded-[50%] p-[0.3vw]
      bg-rose-500 absolute top-[-0.25vw] right-[-0.3vw]
       text-slate-100 flex justify-center items-center font-[1.1vw]
+  }
+  .icon_mode{
+    @apply icon text-yellow-400 ml-2;
   }
 
 }
