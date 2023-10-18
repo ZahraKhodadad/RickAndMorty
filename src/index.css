@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  --slate-900: #0f172a;
+  --slate-800: #1e293b;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: rgb(100, 116, 139);
+  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+  --slate-50: #f8fafc;
+  --rose-600: #e11d48;
+  --rose-500: #f43f5e;
+  --green-600: #22c55e;
+
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--slate-900);
+  color: var(--slate-300);
+  margin:5px auto
+}
+input:focus {
+  outline:none;
+}
+@layer components {
+  .navbar {
+    @apply bg-slate-700 flex justify-between 
+    items-center rounded-[5px] p-3 mt-4
+  }
+  .search_input{
+    @apply  border-solid rounded-[5px] bg-slate-500
+     text-slate-100 placeholder:text-slate-400 p-1 w-[55%] inline-block;
+  }
+  .search_box{
+    @apply hidden sm:flex w-[75%];
+  }
+  .toggleSearch{
+    @apply hidden mt-[1vw] transition-all delay-150 
+    duration-300 ease-out;
+  }
+  .logo{
+    @apply text-slate-300 font-[700]
+  }
+  .nav_result{
+    @apply text-slate-400 w-[35%];
+  }
+  .heart{
+   @apply relative flex;
+  }
+  .icon{
+    @apply w-[1.5rem] h-[1.5rem];
+  }
+  .red{
+   @apply text-rose-500;
+  }
+  .badge{
+    @apply w-[15px] h-[15px] rounded-[50%] p-[0.3vw]
+     bg-rose-500 absolute top-[-0.25vw] right-[-0.3vw]
+      text-slate-100 flex justify-center items-center font-[1.1vw]
+  }
+
+}
+
+
