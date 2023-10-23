@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 
 import "./App.css";
 import Navbar, { Search } from "./components/Navbar/Navbar";
-
+import CharacterList from "./components/CharacterList/CharacterList";
+import { allCharacters } from "../data/data";
+import CharacterDetail from "./components/CharacterDetail/CharacterDetail";
 function App() {
   const [openSearch, setOpenSearch] = useState(false);
   const [theme, setTheme] = useState(null);
@@ -50,7 +52,7 @@ function App() {
         setThemeHandler={setThemeHandler}
         theme={theme}
       />
-
+      
       <div
         className={`toggleSearch ${openSearch ? "toggleSearchClicked" : ""}`}
       >
@@ -60,7 +62,10 @@ function App() {
           </div>
         </Search>
       </div>
-      <h2>hi</h2>
+      <div className="characters">
+        <CharacterList Characters={allCharacters} />
+        <CharacterDetail  />
+      </div>
     </>
   );
 }

@@ -43,7 +43,7 @@ input:focus {
 }
 @layer components {
   .navbar {
-    @apply relative dark:bg-slate-700 bg-rose-300 flex justify-between 
+    @apply relative dark:bg-slate-700 bg-rose-700 flex justify-between 
     items-center rounded-[5px] p-3 mt-4
   }
   .search_input{
@@ -58,7 +58,7 @@ input:focus {
      dark:bg-slate-700 bg-rose-300 rounded-[5px] p-1;
   }
   .toggleSearchClicked{
-    @apply opacity-100 max-h-10 sm:opacity-0 transition-all delay-150 duration-300 ease-out
+    @apply opacity-100 max-h-10 sm:opacity-0 sm:max-h-0 transition-all delay-150 duration-300 ease-out
   }
   .logo{
     @apply font-[700]
@@ -79,14 +79,35 @@ input:focus {
    @apply text-rose-500;
   }
   .badge{
-    @apply sm:w-[15px] sm:h-[15px] w-[12px] h-[12px]  rounded-[50%] p-[0.3vw]
+    @apply sm:w-[15px] sm:h-[15px] w-[12px] h-[12px]  rounded-[50%] p-[0.3vw] text-[0.6rem]
      bg-rose-500 absolute top-[-0.25vw] right-[-0.3vw]
-      text-slate-100 flex justify-center items-center font-[1.1vw]
+      text-slate-100 flex justify-center items-center font-bold
   }
   .icon_mode{
     @apply icon text-yellow-400 ml-2;
   }
-
+  .characters{
+    @apply  grid grid-cols-12 gap-2 mt-[1vw]; 
+  }
+  .characterList{
+    @apply md:col-span-5 col-span-12 grid grid-cols-auto-fit-100 gap-2 md:grid-cols-12 
+    place-content-stretch ;
+  }
+  .characterDetail{
+    @apply md:col-span-7 col-span-12 dark:bg-slate-800 bg-rose-200 rounded ;
+  }
+  .characterItem{
+    @apply transitionParam hover:bg-rose-700
+    hover:cursor-pointer hover:dark:bg-slate-700  dark:bg-slate-800 bg-rose-200
+      rounded p-1 md:col-span-12 grid grid-cols-12;
+  }
+  .transitionParam{
+    @apply transition-all delay-150 duration-300 ease-out
+  }
+  .characterItem_Info{
+    @apply col-span-5 flex flex-col justify-center items-start medium:text-[0.95rem] text-[0.8rem];
+  }
+  /*  */
 }
 
 
