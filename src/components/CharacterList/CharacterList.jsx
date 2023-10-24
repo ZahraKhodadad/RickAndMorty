@@ -1,11 +1,18 @@
 import CharacterItem from "../CharacterItem/CharacterItem";
+import Loader from "../Loader";
 
+const CharacterList = ({ characters, paragraphref, loading }) => {
+  if (loading)
+    return (
+      <div className="characterList">
+        <Loader />
+      </div>
+    );
 
-const CharacterList = ({ Characters }) => {
   return (
     <div className="characterList">
-      {Characters.map((c) => (
-        <CharacterItem key={c.id} item={c} />
+      {characters.map((c) => (
+        <CharacterItem key={c.id} item={c} paragraphref={paragraphref} />
       ))}
     </div>
   );

@@ -3,6 +3,9 @@ export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    // colors:{
+
+    // },
     extend: {
       gridTemplateColumns: {
         "auto-fill-100": "repeat(auto-fill, minmax(100px, 1fr))",

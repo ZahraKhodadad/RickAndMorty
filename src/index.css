@@ -6,19 +6,16 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  --slate-900: #0f172a;
-  --slate-800: #1e293b;
-  --slate-700: #334155;
-  --slate-600: #475569;
-  --slate-500: rgb(100, 116, 139);
-  --slate-400: #94a3b8;
-  --slate-300: #cbd5e1;
-  --slate-200: #e2e8f0;
-  --slate-100: #f1f5f9;
-  --slate-50: #f8fafc;
-  --rose-600: #e11d48;
-  --rose-500: #f43f5e;
-  --green-600: #22c55e;
+
+  --character_item_dark:slate-800;
+  --nav_dark:slate-700;
+  --text_dark:slate-50;
+
+
+  --nav_light:rose-700;
+  --rose-500: rose-500;
+  --character_item_light:rose-200;
+
 
 }
 
@@ -94,7 +91,7 @@ input:focus {
     place-content-stretch ;
   }
   .characterDetail{
-    @apply md:col-span-7 col-span-12 dark:bg-slate-800 bg-rose-200 rounded ;
+    @apply md:col-span-7 col-span-12 flex flex-col gap-2;
   }
   .characterItem{
     @apply transitionParam hover:bg-rose-700
