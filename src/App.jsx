@@ -7,33 +7,62 @@ import { allCharacters } from "../data/data";
 import CharacterDetail from "./components/CharacterDetail/CharacterDetail";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Modal from "./components/Modal";
+import CharacterItem from "./components/CharacterItem/CharacterItem";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import useFetch from "./hooks/useFetch";
+import useLocalStorage from "./hooks/useLocalStorage";
 function App() {
   const [openSearch, setOpenSearch] = useState(false);
   const [theme, setTheme] = useState(null);
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+
+  const { loading, characters } = useFetch(
+    query,
+    "https://rickandmortyapi.com/api/character?name"
+  );
+  const [selectedId, setSelectedId] = useState(null);
+  const [open, setOpen] = useState();
+  const [favourites, setFavourite] = useLocalStorage("FAVOURITE", []);
   const paragraphref = useRef(null);
 
   const toggleSearchHandler = () => {
     setOpenSearch((prev) => !prev);
   };
 
-  // const showHandler = () => {
-  //   if (window.innerWidth < 740) {
-  //     window.scrollTo({
-  //       top: paragraphref.current.offsetTop,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  //   setShowItem((prev) => !prev);
-  // };
+  const showHandler = (id) => {
+    setSelectedId((prev) => (prev === id ? null : id));
+
+    window.scrollTo({
+      top: paragraphref.current.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
   const handleResize = () => {
     if (window.innerWidth < 640) {
       setOpenSearch(false);
     } else {
       setOpenSearch(true);
     }
+  };
+
+  const favHandle = (char) => {
+    const favItem = favourites.map((f) => f.id).includes(char.id);
+
+    if (!favItem) {
+      setFavourite((prevFav) => [...prevFav, char]);
+    }
+
+    console.log(favItem);
+  };
+
+  const removeFavHandle = (id) => {
+    const filteredFavourites = favourites.filter((fav) => fav.id !== id);
+    if (favourites.length === 1) {
+      setOpen(false);
+    }
+    setFavourite(filteredFavourites);
   };
 
   useEffect(() => {
@@ -47,6 +76,7 @@ function App() {
       setTheme("light");
     }
   }, []);
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -55,24 +85,6 @@ function App() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character?name=${query}`
-        );
-        // console.log(data.results);
-        setCharacters(data.results);
-      } catch (error) {
-        setCharacters([]);
-        toast.error(error.response.data.error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (characters) fetchData();
-  }, [query]);
   const setThemeHandler = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
@@ -86,8 +98,27 @@ function App() {
         theme={theme}
         query={query}
         setQuery={setQuery}
+        favourites={favourites}
+        setOpen={setOpen}
       />
-
+      {open && favourites.length > 0 && (
+        <Modal setOpen={setOpen}>
+          <div
+            className={`${
+              favourites.length > 1 ? "overflow-y-scroll  " : ""
+            } max-h-96 h-60 gap-2`}
+          >
+            {favourites.map((fav) => (
+              <CharacterItem item={fav} key={fav.id} open={open}>
+                <button onClick={() => removeFavHandle(fav.id)}>
+                  <TrashIcon className="icon red" />
+                </button>
+              </CharacterItem>
+            ))}
+          </div>
+        </Modal>
+      )}
+      
       <div
         className={`toggleSearch ${openSearch ? "toggleSearchClicked" : ""}`}
       >
@@ -97,15 +128,23 @@ function App() {
           </div>
         </Search>
       </div>
+
       <div className="characters">
         <CharacterList
           characters={characters}
           paragraphref={paragraphref}
           loading={loading}
+          selectedId={selectedId}
+          showHandler={showHandler}
+          open={open}
         />
 
         <div className="characterDetail" ref={paragraphref}>
-          <CharacterDetail />
+          <CharacterDetail
+            selectedId={selectedId}
+            favHandle={favHandle}
+            favourites={favourites}
+          />
         </div>
       </div>
     </>

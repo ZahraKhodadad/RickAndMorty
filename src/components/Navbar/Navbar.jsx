@@ -6,6 +6,8 @@ const Navbar = ({
   setThemeHandler,
   query,
   setQuery,
+  favourites,
+  setOpen,
 }) => {
   return (
     <div className="navbar container">
@@ -25,9 +27,9 @@ const Navbar = ({
             <MagnifyingGlassIcon className="icon" />
           </button>
         </div>
-        <div className="heart">
+        <div className="heart" onClick={() => setOpen((prev) => !prev)}>
           <HeartIcon className="icon red ml-2" />
-          <span className="badge">4</span>
+          <span className="badge">{favourites.length}</span>
         </div>
         <div>
           {theme === "light" ? (

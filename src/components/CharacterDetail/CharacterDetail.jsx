@@ -1,62 +1,123 @@
-import { useEffect, useRef } from "react";
-import { character } from "../../../data/data";
+import { useEffect, useRef, useState } from "react";
+
 import { CharacterItem_Info } from "../CharacterItem/CharacterItem";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
-import { episodes } from "../../../data/data";
-const CharacterDetail = () => {
+import Loader from "../Loader";
+import toast from "react-hot-toast";
+import axios from "axios";
+const CharacterDetail = ({ selectedId, favHandle, favourites }) => {
+  const [character, setCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCharacter = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`
+        );
+        // console.log(data);
+        setCharacter(data);
+        const episodeId = data.episode.map((e) => e.split("/").at(-1));
+        // console.log(episodeId);
+        const { data: episodeData } = await axios.get(
+          `https://rickandmortyapi.com/api/episode/${episodeId}`
+        );
+        setEpisodes([episodeData].flat());
+      } catch (error) {
+        setCharacter(null);
+        toast.error(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (selectedId) fetchCharacter();
+  }, [selectedId]);
+
+  if (loading) return <Loader />;
+  if (!selectedId || !character) return <p>please click on a Character</p>;
   return (
     <>
-      <CharacterDetail_data />
-      <CharacterDetail_Episodes />
+      <CharacterDetail_data
+        character={character}
+        favHandle={favHandle}
+        favourites={favourites}
+      />
+      <CharacterDetail_Episodes episodes={episodes} />
     </>
   );
 };
 
 export default CharacterDetail;
 
-const CharacterDetail_data = () => {
+const CharacterDetail_data = ({ character, favHandle, favourites }) => {
   return (
-    <div className="characterDetail_Info grid grid-cols-12 overflow-hidden gap-4 dark:bg-slate-800 bg-rose-200 rounded">
+    <div className="characterDetail_Info">
       <div className="col-span-6 ">
         <img src={character.image} />
       </div>
-      <div className="col-span-6 flex flex-col gap-3 mt-4 leading-7 md:leading-4 medium:leading-6 lg:leading-8">
+      <div className="characterDetail_Info_text">
         <CharacterItem_Info item={character} />
         <div>
           <span className="opacity-50">Last known location</span>
           <p>{character.location.name}</p>
         </div>
         <div>
-          <button className="p-2 text-slate-50 rounded-xl bg-slate-700 text-sm font-bold">
-            Add to Favourite
-          </button>
+          {favourites.map((f) => f.id).includes(character.id) ? (
+            <p>This has Already been Exist💹</p>
+          ) : (
+            <button className="btn_dark" onClick={() => favHandle(character)}>
+              Add to Favourite
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export const CharacterDetail_Episodes = () => {
+export const CharacterDetail_Episodes = ({ episodes }) => {
+  const [sort, setSorted] = useState(false);
+  let sortedEpisode;
+
+  if (sort === false) {
+    sortedEpisode = episodes.sort(
+      (a, b) => new Date(a.air_date) - new Date(b.air_date)
+    );
+  } else {
+    sortedEpisode = episodes.sort(
+      (a, b) => new Date(b.air_date) - new Date(a.air_date)
+    );
+  }
+
   return (
-    <div className="characterDetail_Episodes dark:bg-slate-800 bg-rose-200 rounded p-2">
-      <div className="episodeHeader flex justify-between items-center">
-        <strong>List of Episodes</strong>
-        <ArrowUpCircleIcon className="icon" />
-      </div>
-      <div className="episodeList text-sm">
-        {episodes.map((item, index) => (
-          <div
-            key={item.id}
-            className="episodeList_item flex justify-between items-center mt-2"
-          >
-            <div className="episodeList_item_Desc">
-              {String(index + 1).padStart(2, "0")} -&nbsp;
-              <span>{item.episode}</span>&nbsp;:&nbsp;
-              <strong>{item.name}</strong>
+    <div className={`characterDetail_Episodes`}>
+      <div>
+        <div className="episodeHeader ">
+          <strong>List of Episodes</strong>
+
+          <ArrowUpCircleIcon
+            onClick={() => setSorted((prev) => !prev)}
+            className={`icon ${sort ? "rotate-0" : "-rotate-180"}`}
+          />
+        </div>
+        <div
+          className={`${
+            episodes.length > 3 ? "overflow-y-scroll" : ""
+          } p-2 h-30 max-h-80 episodeList text-sm`}
+        >
+          {sortedEpisode.map((item, index) => (
+            <div key={item.id} className="episodeList_item ">
+              <div className="episodeList_item_Desc">
+                {String(index + 1).padStart(2, "0")} -&nbsp;
+                <span>{item.episode}</span>&nbsp;:&nbsp;
+                <strong>{item.name}</strong>
+              </div>
+              <div className="episodeList_item_Time">{item.air_date}</div>
             </div>
-            <div className="episodeList_item_Time">{item.air_date}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
