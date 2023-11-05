@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import Navbar, { Search } from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import CharacterList from "./components/CharacterList/CharacterList";
-import { allCharacters } from "../data/data";
 import CharacterDetail from "./components/CharacterDetail/CharacterDetail";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Modal from "./components/Modal";
 import CharacterItem from "./components/CharacterItem/CharacterItem";
-import { ArrowUpCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import useFetch from "./hooks/useFetch";
 import useLocalStorage from "./hooks/useLocalStorage";
+import ArrowUpComponent from "./components/ArrowUpComponent";
+import SearchToggle from "./components/SearchToggle";
 
 function App() {
+  //states and customHooks
   const [openSearch, setOpenSearch] = useState(false);
   const [theme, setTheme] = useState(null);
   const [query, setQuery] = useState("");
@@ -25,23 +25,25 @@ function App() {
   const [open, setOpen] = useState();
   const [favourites, setFavourite] = useLocalStorage("FAVOURITE", []);
   const paragraphref = useRef(null);
-  const refValue = useRef();
+
+  //useEffects and Handlers
   const toggleSearchHandler = () => {
     setOpenSearch((prev) => !prev);
   };
 
   const showHandler = (id) => {
     setSelectedId((prev) => (prev === id ? null : id));
-
     window.scrollTo({
       top: paragraphref.current.offsetTop,
       behavior: "smooth",
     });
   };
+
   const upHandle = () => {
     window.scrollTo(0, 0);
     setArrowUpOpen(false);
   };
+
   useEffect(() => {
     window.addEventListener("scroll", (e) => {
       if (window.scrollY < 200) {
@@ -101,9 +103,9 @@ function App() {
   const setThemeHandler = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
-  // console.log(height);
+  /////////////////////////////////////////////////
   return (
-    <div ref={refValue}>
+    <>
       <Toaster />
       <Navbar
         toggleSearchHandler={toggleSearchHandler}
@@ -131,17 +133,7 @@ function App() {
           </div>
         </Modal>
       )}
-
-      <div
-        className={`toggleSearch ${openSearch ? "toggleSearchClicked" : ""}`}
-      >
-        <Search query={query} setQuery={setQuery}>
-          <div className="nav_result">
-            <span>X Character Exsist</span>
-          </div>
-        </Search>
-      </div>
-
+      <SearchToggle query={query} setQuery={setQuery} openSearch={openSearch} />
       <div className="characters">
         <CharacterList
           characters={characters}
@@ -161,16 +153,8 @@ function App() {
         </div>
       </div>
 
-      <div
-        className={`sticky bottom-0 right-0 flex justify-end ${
-          arrowUpOpen ? "opacity-100  h-full" : "opacity-0"
-        }`}
-      >
-        <button onClick={upHandle}>
-          <ArrowUpCircleIcon className="iconUp " />
-        </button>
-      </div>
-    </div>
+      <ArrowUpComponent arrowUpOpen={arrowUpOpen} upHandle={upHandle} />
+    </>
   );
 }
 
