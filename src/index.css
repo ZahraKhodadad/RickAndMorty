@@ -59,12 +59,12 @@ input:focus {
 }
 @layer components {
   .navbar {
-    @apply relative dark:bg-slate-700 bg-rose-700 flex justify-between 
+    @apply relative dark:bg-slate-700 bg-rose-700 text-rose-50 flex justify-between 
     items-center rounded-[5px] p-3 mt-4
   }
   .search_input{
     @apply  border-solid rounded-[5px] dark:bg-slate-500 bg-rose-200
-     dark:text-slate-100 dark:placeholder:text-slate-400 placeholder:text-rose-100 p-1 w-[55%] inline-block;
+     dark:text-slate-100 text-slate-900 dark:placeholder:text-slate-400 placeholder:text-slate-100 p-1 w-[55%] inline-block;
   }
   .search_box{
     @apply hidden sm:flex w-[75%];
@@ -90,6 +90,9 @@ input:focus {
   }
   .icon{
     @apply sm:w-[1.5rem] sm:h-[1.5rem] w-[1.1rem] h-[1.1rem] transition-all delay-150 ease-in-out duration-500;
+  }
+  .iconUp{
+    @apply h-8 w-8 text-rose-600 transitionParam;
   }
   .red{
    @apply text-rose-500;
@@ -148,7 +151,8 @@ input:focus {
     @apply flex justify-between items-center mb-3 border-b p-2 border-slate-200
   }
   .episodeList_item{
-    @apply md:flex md:justify-between items-center mt-2
+    @apply xl:flex-row xl:justify-between flex flex-col-reverse mt-2
+     border p-1 rounded border-dotted border-rose-700 dark:border-slate-50
   }
   .episodeList_item_Time{
     @apply dark:bg-slate-700 rounded-xl bg-rose-100 text-slate-700 dark:text-slate-50 text-sm font-bold p-1;

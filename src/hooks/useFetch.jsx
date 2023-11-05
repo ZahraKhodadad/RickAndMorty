@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const useFetch = (query,url) => {
 
@@ -13,6 +14,7 @@ const useFetch = (query,url) => {
       const { data } = await axios.get(
         `${url}=${query}`
       );
+      // console.log(data);
       setCharacters(data.results);
     } catch (error) {
       setCharacters([]);

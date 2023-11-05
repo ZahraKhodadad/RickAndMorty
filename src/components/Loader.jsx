@@ -3,7 +3,7 @@ import { LoaderIcon } from "react-hot-toast";
 function Loader() {
   return (
     <div
-      className="text-slate-300"
+      className="dark:text-slate-300 text-slate-900 md:col-span-12 grid grid-cols-12"
       style={{
         display: "flex",
         alignItems: "center",

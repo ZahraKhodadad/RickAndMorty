@@ -12,7 +12,9 @@ const CharacterList = ({
   if (loading)
     return (
       <div className="characterList">
-        <Loader />
+   
+          <Loader />
+     
       </div>
     );
 
