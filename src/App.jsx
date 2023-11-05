@@ -10,6 +10,7 @@ import useFetch from "./hooks/useFetch";
 import useLocalStorage from "./hooks/useLocalStorage";
 import ArrowUpComponent from "./components/ArrowUpComponent";
 import SearchToggle from "./components/SearchToggle";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 function App() {
   //states and customHooks
