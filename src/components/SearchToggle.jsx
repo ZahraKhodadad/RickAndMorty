@@ -1,11 +1,11 @@
 import { Search } from "./Navbar/Navbar";
 
-const SearchToggle = ({query,setQuery,openSearch}) => {
+const SearchToggle = ({ query, setQuery, openSearch, characters }) => {
   return (
     <div className={`toggleSearch ${openSearch ? "toggleSearchClicked" : ""}`}>
       <Search query={query} setQuery={setQuery}>
         <div className="nav_result">
-          <span>X Character Exsist</span>
+          <span>{characters.length} Character Exsist</span>
         </div>
       </Search>
     </div>

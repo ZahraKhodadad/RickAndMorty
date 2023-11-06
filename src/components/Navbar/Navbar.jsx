@@ -8,15 +8,16 @@ const Navbar = ({
   setQuery,
   favourites,
   setOpen,
+  characters,
 }) => {
   return (
     <div className="navbar container">
       <div className="logo">Logo</div>
 
       <div className="search_box">
-        <Search query={query} setQuery={setQuery}>
+        <Search query={query} setQuery={setQuery} characters={characters}>
           <div className="nav_result">
-            <span>X Character Exsist</span>
+            <span>{characters.length} Character Exsist</span>
           </div>
         </Search>
       </div>

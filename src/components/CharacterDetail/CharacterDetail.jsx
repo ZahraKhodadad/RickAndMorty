@@ -5,7 +5,7 @@ import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import Loader from "../Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
-const CharacterDetail = ({ selectedId, favHandle, favourites }) => {
+const CharacterDetail = ({ selectedId, favHandle, favourites, error }) => {
   const [character, setCharacter] = useState(null);
   const [episodes, setEpisodes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,9 @@ const CharacterDetail = ({ selectedId, favHandle, favourites }) => {
   }, [selectedId]);
 
   if (loading) return <Loader />;
+  if (error !== null) return <p>There is no result for this character!</p>;
   if (!selectedId || !character) return <p>please click on a Character</p>;
+
   return (
     <>
       <CharacterDetail_data

@@ -6,10 +6,12 @@ const useFetch = (query,url) => {
 
  const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error,setError] = useState(null);
 
  useEffect(() => {
   const fetchData = async () => {
     try {
+      setError(null);
       setLoading(true);
       const { data } = await axios.get(
         `${url}=${query}`
@@ -19,13 +21,14 @@ const useFetch = (query,url) => {
     } catch (error) {
       setCharacters([]);
       toast.error(error.response.data.error);
+      setError("there isn't Character");
     } finally {
       setLoading(false);
     }
   };
   if (characters) fetchData();
 }, [query]);
- return {loading,characters}
+ return {loading,characters,error}
 }
  
 export default useFetch;

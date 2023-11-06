@@ -18,7 +18,7 @@ function App() {
   const [theme, setTheme] = useState(null);
   const [query, setQuery] = useState("");
   const [arrowUpOpen, setArrowUpOpen] = useState(false);
-  const { loading, characters } = useFetch(
+  const { loading, characters, error } = useFetch(
     query,
     "https://rickandmortyapi.com/api/character?name"
   );
@@ -116,6 +116,7 @@ function App() {
         setQuery={setQuery}
         favourites={favourites}
         setOpen={setOpen}
+        characters={characters}
       />
       {open && favourites.length > 0 && (
         <Modal setOpen={setOpen}>
@@ -134,7 +135,12 @@ function App() {
           </div>
         </Modal>
       )}
-      <SearchToggle query={query} setQuery={setQuery} openSearch={openSearch} />
+      <SearchToggle
+        query={query}
+        setQuery={setQuery}
+        openSearch={openSearch}
+        characters={characters}
+      />
       <div className="characters">
         <CharacterList
           characters={characters}
@@ -147,6 +153,7 @@ function App() {
 
         <div className="characterDetail" ref={paragraphref}>
           <CharacterDetail
+            error={error}
             selectedId={selectedId}
             favHandle={favHandle}
             favourites={favourites}
